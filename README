@@ -1,0 +1,58 @@
+I created this update.zip several months ago to provide people with an easy way to root their device.
+
+This was mainly created for those "noobs" who know nothing about how to use a command prompt, adb, or their heads, to read simple instructions and gain root access to the device in question on thier own.
+
+I released this at the ZTE Avail / Merit sub-forums @ androidforums.com on Oct. 12, 2012 under the alias "stayboogy"
+
+
+
+The edify scripting corrections that produced failsafe, accurate rooting (gingerbread) with this method came from reading "edify_generator.py" and taking note of the usage and arguments from edify commands.
+
+
+The majority of people are using completly incorrect and non-functional commands in their in their updater-scripts that don't actually accomplish anything.
+
+
+
+PRIME EXAMPLE = run_program("/sbin/busybox", "mount", "/system");  OR its many other variants using busybox to mount a partition.  
+
+Firstly, according to actual edify usuage, "mount" requires "(kind, what, path)" in order to work--SEE LINES 125 to 130 in edify_generator.py 
+
+Secondly, "mount" is not symlinked to "busybox" by default, but is symlinked to "toolbox" instead unless by mistake or unknowingly one has symlinked it incorrectly to "busybox."
+
+Thirdly, if one was to actually pay attention to a recovery log when such incorrect commands as above are used, they would see this result:
+
+"about to run program [/sbin/busybox] with 3 args
+script result was [0]"
+
+
+
+So, when I started using the correct syntax for mounting in the updater-script, root access was gained each and every time this file was installed from stock recoveries of gingerbread devices.
+
+I have no doubts that it will work with other release versions as well.  
+
+Root access can be gained by using the incorrect "run_program" method, but some times it will only be a temporary root and will be gone on the next reboot, and other times it will say that it has installed although it did not, and other times permanent root access will be gained (roughly 30% of the time in my experience).
+
+However, when the proper syntax is used for mounting the /system partition, permanent root access is gained 100% of the time in my experience through stock recovery (gingerbread).
+
+
+
+
+In order to use what I have shared here,
+
+you must:
+
+1) supply your own update-binary that corresponds to your device in META-INF/com/google/android/
+
+2) remove comments from META-INF/com/google/android/updater-script
+
+3) supply your own su file and place it into a /system/xbin directory
+
+4) zip the file and name it update.zip
+
+5) sign the zip
+
+6) make sure it's named update.zip and install from stock recovery of your device
+
+
+
+Enjoy.
